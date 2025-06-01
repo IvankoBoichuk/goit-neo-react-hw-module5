@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
 import { getMovies } from '../../api'
+import MovieList from '../../components/MovieList/MovieList'
 
 function HomePage() {
   const [movies, setMovies] = useState([])
@@ -33,17 +33,7 @@ function HomePage() {
 
   return (
     <>
-      {movies.length > 0 ? (
-        <ul>
-          {movies.map(el => (
-            <li key={el.id}>
-              <Link to={`/movies/${el.id}`}>{el.title}</Link>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>No movies found.</p>
-      )}
+      {movies.length > 0 ? <MovieList movies={movies} /> : <p>No movies found.</p>}
     </>
   )
 }

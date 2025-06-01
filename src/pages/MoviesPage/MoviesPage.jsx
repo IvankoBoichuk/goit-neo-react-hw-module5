@@ -1,15 +1,16 @@
 import { Formik } from "formik";
 import { getSearchedMovie } from "../../api";
 import { useEffect, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
+import MovieList from "../../components/MovieList/MovieList";
 
 const MoviesPage = () => {
-    const [movies, setMovies] = useState([]);
+    const [movies, setMovies] = useState(null);
     const [searchParams, setSearchParams] = useSearchParams();
     const query = searchParams.get("query") ?? "";
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-
+    
     useEffect(() => {
         const fetchMovie = async () => {
             try {
@@ -28,7 +29,7 @@ const MoviesPage = () => {
         if (query) {
             fetchMovie();
         } else {
-            setMovies([]);
+            setMovies(null);
         }
     }, [query]);
 
@@ -81,17 +82,7 @@ const MoviesPage = () => {
 
             {!loading && !error && (
                 <>
-                    {movies.length > 0 ? (
-                        <ul>
-                            {movies.map((el) => (
-                                <li key={el.id}>
-                                    <Link to={`/movies/${el.id}`}>{el.title}</Link>
-                                </li>
-                            ))}
-                        </ul>
-                    ) : (
-                        query && <p>😢 Sorry, we've found nothing.</p>
-                    )}
+                    {movies ? movies.length > 0 ? <MovieList movies={movies} /> : <p>😢 Sorry, we've found nothing.</p> : ""}
                 </>
             )}
         </>

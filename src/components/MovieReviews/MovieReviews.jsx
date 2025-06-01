@@ -11,11 +11,9 @@ const MovieReviews = () => {
         const featchReviews = async () => {
             const reviews = await getReviews(movieId)
             setReviews(reviews.results)
-            console.log(reviews.results);
-            
         }
         featchReviews()
-    }, []);
+    }, [movieId]);
 
     return <section>
         {reviews.length > 0 ? <ul>

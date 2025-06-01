@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react'
-import { Link, Outlet, useParams } from 'react-router-dom'
+import { useEffect, useRef, useState } from 'react'
+import { NavLink, Outlet, useLocation, useParams, Link } from 'react-router-dom'
 import { getMovie } from '../../api'
 import styles from './MovieDetailsPage.module.css'
 
@@ -8,6 +8,8 @@ function MovieDetailsPage() {
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
     const { movieId } = useParams()
+    const location = useLocation()
+    const ref = useRef(location.state)
 
     useEffect(() => {
         const fetchMovie = async () => {
@@ -30,6 +32,7 @@ function MovieDetailsPage() {
 
     return (
         <>
+            {movie && <Link to={ref.current ?? "/movies"}>← Back</Link>}
             {movie && <MovieDetails movie={movie} />}
         </>
     )
@@ -58,8 +61,8 @@ const MovieDetails = ({ movie: { title, poster_path, popularity, overview, genre
                 <p>Additional information</p>
                 <nav>
                     <ul>
-                        <li><Link to="cast">Cast</Link></li>
-                        <li><Link to="reviews">Reviews</Link></li>
+                        <li><NavLink to="cast">Cast</NavLink></li>
+                        <li><NavLink to="reviews">Reviews</NavLink></li>
                     </ul>
                 </nav>
             </section>

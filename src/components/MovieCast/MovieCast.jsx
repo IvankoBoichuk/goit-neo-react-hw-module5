@@ -12,7 +12,7 @@ const MovieCast = () => {
             setCast(cast.cast)
         }
         featchCast()
-    }, []);
+    }, [movieId]);
 
     return <section>
         <ul>
